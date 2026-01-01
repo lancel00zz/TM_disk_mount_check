@@ -10,6 +10,9 @@ class TimeMachineMount(AgentCheck):
         tags = list(instance.get("tags", []))
         tags.append(f"mountpoint:{mountpoint}")
 
+        # Always emit heartbeat (for monitoring)
+        self.gauge("timemachine.check_heartbeat", 1, tags=tags)
+
         # Default
         mounted = 0
 
