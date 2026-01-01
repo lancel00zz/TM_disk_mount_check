@@ -2,3 +2,6 @@ instances:
   - mountpoint: "/Volumes/SEAGATE TIME MACHINE 5T"
     tags:
       - timemachine_destination:seagate_time_machine_5t
+      - service:helloworld2_timemachine
+      - component:timemachine
+      - version:1.0.0
