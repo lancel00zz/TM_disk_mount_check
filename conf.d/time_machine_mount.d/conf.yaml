@@ -1,0 +1,4 @@
+instances:
+  - mountpoint: "/Volumes/SEAGATE TIME MACHINE 5T"
+    tags:
+      - timemachine_destination:seagate_time_machine_5t
