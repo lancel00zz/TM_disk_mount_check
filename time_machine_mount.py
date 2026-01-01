@@ -10,18 +10,20 @@ class TimeMachineMount(AgentCheck):
         tags = list(instance.get("tags", []))
         tags.append(f"mountpoint:{mountpoint}")
 
-        # Check mount table (best signal)
+        # Default
         mounted = 0
-        try:
-            out = subprocess.check_output(["/sbin/mount", "-p"], text=True)
-            mounted = 1 if any(f" {mountpoint} " in f" {line} " for line in out.splitlines()) else 0
-        except Exception as e:
-            # This indicates a check execution problem (not "disk missing")
-            self.service_check("timemachine.mount.check", self.CRITICAL, message=str(e), tags=tags)
-            return
 
-        # Emit stable 0/1
+        try:
+            out = subprocess.check_output(["/sbin/mount"], text=True)
+            mounted = 1 if any(f" on {mountpoint} (" in line for line in out.splitlines()) else 0
+        except Exception as e:
+            self.service_check("timemachine.mount.check", self.CRITICAL, message=str(e), tags=tags)
+            mounted = 0  # keep going, still emit metric
+
+        # Always emit
         self.gauge("timemachine.disk_mounted", mounted, tags=tags)
+
+
 
         # Optional: service check that mirrors the state
         status = self.OK if mounted else self.CRITICAL
