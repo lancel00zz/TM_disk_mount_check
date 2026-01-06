@@ -1,0 +1,9 @@
+instances:
+  - mountpoint: "/Volumes/SEAGATE TIME MACHINE 5T"
+    tags:
+      - service:helloworld2_timemachine
+      - component:timemachine
+      - signal:disk_space
+      - version:1.0.0
+      - timemachine_destination:seagate_time_machine_5t
+
